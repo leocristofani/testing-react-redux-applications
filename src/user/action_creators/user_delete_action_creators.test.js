@@ -15,10 +15,10 @@ import {
 const mockStore = reduxMockStore([thunk]);
 
 describe('User delete action creators', () => {
+    it('should create action to inform user is being deleted');
     /**
      * Testing sync action creators
      */
-    it('should create action to inform user is being deleted');
     it('should create action to inform user was deleted successfully');
     it('should create action to inform user was NOT deleted successfully');
     /**

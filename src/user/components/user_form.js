@@ -4,20 +4,29 @@ import Panel from '../../shared_components/panel';
 class UserForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      name: '',
+      email: ''
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.resetForm = this.resetForm.bind(this);
   }
   handleSubmit(event) {
     event.preventDefault();
-    this.props.createUser(this.state);
+    if (!this.props.isCreatingUser) {
+      this.props.createUser(this.state);
+    }
   }
-  componentWillReceiveProps(nextProps) {
-    if (!!nextProps.isCreatingUser || !!nextProps.createUserFailureMessage) return;
+  resetForm() {
     this.setState({
       name: '',
       email: ''
     });
+  }
+  componentWillReceiveProps(nextProps) {
+    if (!!nextProps.isCreatingUser || !!nextProps.createUserFailureMessage) return;
+    this.resetForm();
   }
   handleChange(event) {
     const { name, value } = event.target;

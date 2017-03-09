@@ -19,7 +19,7 @@ describe('User reducer', () => {
         expect(
             userReducer(undefined, { type: 'FETCH_USERS_REQUEST' })
         ).toEqual(
-            Object.assign({}, initialState, { isFetchingUser: true })
+            { ...initialState, isFetchingUser: true }
         );
     });
 
@@ -33,8 +33,37 @@ describe('User reducer', () => {
                 payload: { users }
             })
         ).toEqual(
-            Object.assign({}, initialState, { list: users })
+            { ...initialState, list: users, isFetchingUser: false }
         );
+    });
+
+    it('should handle DELETE_USER_REQUEST', () => {
+        expect(
+            userReducer(undefined, { 
+                type: 'DELETE_USER_REQUEST', 
+                payload: { userId: 123 }
+            })
+        ).toEqual(
+            { ...initialState, deletingUserId: 123 }
+        )
+    });
+
+    it('should handle DELETE_USER_SUCCESS', () => {
+        const user = { id: 123 };
+        expect(
+            userReducer({ 
+                ...initialState, 
+                deletingUserId: user.id, 
+                list: [user] 
+            }, {
+                type: 'DELETE_USER_SUCCESS',
+                payload: { user }
+            })
+        ).toEqual({
+            ...initialState,
+            deletingUserId: undefined,
+            list: []
+        });
     });
 
 });

@@ -7,7 +7,7 @@ import UserListContainer from './user_list_container';
 
 const mockStore = reduxMockStore([thunk]);
 
-describe('User list container', () => {
+describe('Userlist container', () => {
 
     it('should dispatch action to fetch users', () => {
         
