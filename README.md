@@ -16,5 +16,5 @@
 4. `npm run build`
 5. `node server/index.js`
 
-*PS. This application was build with [https://github.com/facebookincubator/create-react-app](Create React App). Refer to the docs for further actions.*
+*PS. This application was build with [Create React App](https://github.com/facebookincubator/create-react-app). Refer to the docs for further actions.*
 
