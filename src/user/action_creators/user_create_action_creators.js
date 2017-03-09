@@ -33,6 +33,6 @@ export function createUser(user) {
          */
         return axios.post('/api/users', user)
             .then(res => dispatch(createUserSuccess(res.data)))
-            .catch(err => dispatch(createUserFailure(err)));
+            .catch(err => dispatch(createUserFailure(err.response.data)));
     }
 }
