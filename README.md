@@ -17,7 +17,7 @@
 #### 1.1 Pure functions
 - Don’t cause side effect
 - Don’t access global state
-- Given the same input, it’s guaranteed to always produce the same output
+- Given the same input, they're guaranteed to always produce the same output
 - **Easy to test**
     - Predictable
     - Don’t require mocks and/or interceptors
@@ -41,7 +41,7 @@ function createUserSuccess(user) {
   - Require mocks and/or interceptors
 - In React/Redux applications, async actions and containers are impure functions
 ```
-/* this one on the other hand is impure. Notice that it interacts with the outside world by posting data to the backend and mutates the store by dispatching actions. */
+/* Notice that it interacts with the outside world, namely the backend and the store */
 function createUser(user) {
     return function(dispatch) {
         dispatch(createUserRequest());
@@ -251,8 +251,8 @@ describe('Userlist container', () => {
 - [Writing tests section of the Redux docs](http://redux.js.org/docs/recipes/WritingTests.html)
 - [Presentational and container components](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0#.2mmukevce)
 - [What is a pure function](https://medium.com/javascript-scene/master-the-javascript-interview-what-is-a-pure-function-d1c076bec976#.c9omhz78d)
+- [Redux DevTools (Chrome extension)](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd)
 - Jest https://facebook.github.io/jest/
 - Enzyme https://github.com/airbnb/enzyme
 - Mock-redux-store http://arnaudbenard.com/redux-mock-store/
 - Nock https://github.com/node-nock/nock
-
