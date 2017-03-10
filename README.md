@@ -56,7 +56,7 @@ function createUser(user) {
 
 ![React/Redux architeture from (im)pure perspective](https://img.revinate.com/image/upload/c_fit,w_1200/qh9aacz9llm74jemazpa.png)
 
-##### 3. Testing synchronous actions
+#### 3. Testing synchronous actions
 - A sync action would say: *“Here’s a description of how the state should be changed, along with some data”*
 - Sync action creators are pure functions and they are very easy to test
 
