@@ -14,7 +14,7 @@
 
 ### 1. (Im)pure functions and why they matter
 
-##### 1.1 Pure functions
+#### 1.1 Pure functions
 - Don’t cause side effect
 - Don’t access global state
 - Given the same input, it’s guaranteed to always produce the same output
@@ -33,7 +33,7 @@ function createUserSuccess(user) {
 }
 ```
 
-##### 1.2 Impure functions
+#### 1.2 Impure functions
 - Cause side effects
 - Mutate global state
 - **Hard to test**
@@ -52,7 +52,7 @@ function createUser(user) {
 }
 ```
 
-##### 2.  React/Redux architecture from a (im)pure function perspective
+#### 2.  React/Redux architecture from a (im)pure function perspective
 
 ![React/Redux architeture from (im)pure perspective](https://img.revinate.com/image/upload/c_fit,w_1200/qh9aacz9llm74jemazpa.png)
 
@@ -78,7 +78,7 @@ it('should create action to inform that a user failed to be created', () => {
 });
 ```
 
-##### 4. Testing asynchronous actions
+#### 4. Testing asynchronous actions
 - An async function would say *“Let me first talk to the backend first, ok? Then I can follow up with the store with description(s) of how the state should be changed, along with some data”*
 - Sync actions are inpure, because most of the time they interact with the backend and dispatch actions to mutate the Redux store.
 
@@ -108,7 +108,22 @@ it('should create action to create user', () => {
 });
 ```
 
-##### 8.  How to run the application
+#### 5. Testing reducers
+- A reducer would say: “Just give me the current state and a description of what should be change along with data and I’ll change the part of the state I’m responsible for”
+- Reducers are pure functions and should be very easy test.
+
+```
+/* This is the switch case in which a create user get's added to the store */
+case CREATE_USER_SUCCESS:
+    return {
+        ...state,
+        list: [payload.user, ...state.list],
+        isCreatingUser: false,
+        createUserFailureMessage: undefined
+    };
+```
+
+#### 8.  How to run the application
 
 1. `git clone git@github.com:leocristofani/testing-react-redux-applications.git`
 2. `cd into testing-react-redux-applications`
@@ -118,13 +133,13 @@ it('should create action to create user', () => {
 
 *PS. This application was build with [Create React App](https://github.com/facebookincubator/create-react-app). Refer to the docs for further actions.*
 
-##### 9. Links to useful resources
+#### 9. Links to useful resources
 
 - [Writing tests section of the Redux docs](http://redux.js.org/docs/recipes/WritingTests.html)
-- Presentational and container components
-- What is a pure function
-- Github repo of demo application
+- [Presentational and container components](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0#.2mmukevce)
+- [What is a pure function](https://medium.com/javascript-scene/master-the-javascript-interview-what-is-a-pure-function-d1c076bec976#.c9omhz78d)
 - Jest https://facebook.github.io/jest/
 - Enzyme https://github.com/airbnb/enzyme
 - Mock-redux-store http://arnaudbenard.com/redux-mock-store/
 - Nock https://github.com/node-nock/nock
+
