@@ -36,7 +36,7 @@ describe('User create action creators', () => {
         const err = { message: 'test message' };
         const expectedAction = { type: CREATE_USER_FAILURE, payload: { err } };
         const actualAction = createUserFailure(err);
-        expect(expectedAction).toEqual(actualAction);
+        expect(actualAction).toEqual(expectedAction);
     });
 
     it('should create action to create user', () => {
