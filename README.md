@@ -123,6 +123,119 @@ case CREATE_USER_SUCCESS:
     };
 ```
 
+#### 6 Testing components
+- A component would say: “Give me my props, and I’ll give you a representation of the DOM”
+- Components should be easy to test, since they are pure functions that given the same props, will always return the same representation of the DOM.
+
+````
+/* This is the user list components. */
+function UserListItem({user, deleteUser, deletingUserId}) {
+    return (
+        <tr key={user.id}>
+            <td data-r-test="user-list-item-name">{user.name}</td>
+            <td data-r-test="user-list-item-email">{user.email}</td>
+            <td style={{width: 65, textAlign: 'right'}}>
+                <button
+                    data-r-test="user-list-item-delete-button"
+                    className="btn btn-xs btn-danger"
+                    type="button"
+                    disabled={deletingUserId === user.id}
+                    onClick={() => deleteUser(user.id)}
+                >{deletingUserId === user.id ? 'deleting...' : 'delete'}</button>
+            </td>
+        </tr>
+    );
+}
+
+/* This is how you test a presentational component */
+it('should display user\'s email', () => {
+    const props = { ...baseProps };
+    const wrapper = shallow(<UserListItem {...props} />);
+    expect(
+        wrapper.find('[data-r-test="user-list-item-email"]').text()
+    ).toEqual(props.user.email);
+});
+
+it('should delete user', () => {
+    const deleteUser = jest.fn();
+    const props = {
+        ...baseProps,
+        deleteUser
+    };
+    const wrapper = shallow(<UserListItem {...props} />)
+    wrapper.find('[data-r-test="user-list-item-delete-button"]').simulate('click');
+    expect(deleteUser).toHaveBeenCalledWith(props.user.id);
+});
+````
+
+#### 7. Testing containers
+- A comtainer would say: “Hey component, here’s some data from the store and functions/actions you can call”
+- Containers are impure functions because they are dependant on the global context of react
+
+
+````
+function mapStateToProps(state) {
+    return {
+        userList: state.user.list,
+        isFetchingUser: state.user.isFetchingUser
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    dispatch(fetchUsers());
+    return {};
+}
+
+function UserListContainer({ userList, isFetchingUser }) {
+    return isFetchingUser
+        ? (<div className="alert alert-info">Fetching users...</div>)
+        : <UserList userList={userList} />;
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserListContainer);
+
+/* This is how you test that the container passes the expected props to user_list.js, and */
+describe('Userlist container', () => {
+
+    it('should dispatch action to fetch users', () => {
+
+        const wrapper = mount(
+            <Provider store={store}>
+                <UserListContainer />
+            </Provider>
+        );
+
+        const expectedActions = [{"type": "FETCH_USERS_REQUEST"}];
+        const actualActions = store.getActions();
+
+        expect(expectedActions).toEqual(actualActions);
+    });
+
+    it('should connect UserList component to Redux store', () => {
+        
+        const state = {
+            user: {
+                list: [
+                    { name: 'test1', email: 'test1@email.com', id: 1 },
+                    { name: 'test2', email: 'test2@email.com', id: 2 },
+                ]
+            }
+        };
+
+        const store = mockStore(state);
+        
+        const wrapper = mount(
+            <Provider store={store}>
+                <UserListContainer />
+            </Provider>
+        ).find('UserList').first();
+
+        expect(wrapper.props().userList.length).toEqual(state.user.list.length);
+    });
+
+});
+````
+
 #### 8.  How to run the application
 
 1. `git clone git@github.com:leocristofani/testing-react-redux-applications.git`
